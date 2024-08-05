@@ -11,17 +11,23 @@ class UsersPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final usersRef = ref.watch(getUsersEventProvider);
     return Scaffold(
-      body: usersRef.when(
-        data: (users) => ListView.builder(
-          itemBuilder: (context, index) => UserTile(user: users[index]),
-          itemCount: users.length,
-          padding: const EdgeInsets.all(16),
-        ),
-        error: (error, stackTrace) => Center(
-          child: Text('Error: $error'),
-        ),
-        loading: () => const Center(
-          child: CupertinoActivityIndicator(),
+      appBar: AppBar(
+        title: const Text('Users'),
+      ),
+      body: SafeArea(
+        minimum: const EdgeInsets.all(20),
+        child: usersRef.when(
+          data: (users) => ListView.builder(
+            itemBuilder: (context, index) => UserTile(user: users[index]),
+            itemCount: users.length,
+            padding: const EdgeInsets.all(16),
+          ),
+          error: (error, stackTrace) => Center(
+            child: Text('Error: $error \n $stackTrace'),
+          ),
+          loading: () => const Center(
+            child: CupertinoActivityIndicator(),
+          ),
         ),
       ),
     );

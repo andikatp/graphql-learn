@@ -15,8 +15,8 @@ extension LoggerExtension on AutoDisposeRef<dynamic> {
 
     onCancel(() {
       timer = Timer.periodic(
-        const Duration(minutes: 1),
-        (e) => log('${e.tick} minute(s) passed'),
+        const Duration(seconds: 3),
+        (e) => log('${e.tick} second(s) passed'),
       );
     });
 
@@ -35,7 +35,7 @@ extension CancelTokenExtension on AutoDisposeRef<dynamic> {
 }
 
 extension CacheExtension on AutoDisposeRef<dynamic> {
-  KeepAliveLink cacheFor([Duration duration = const Duration(minutes: 5)]) {
+  KeepAliveLink cacheFor([Duration duration = const Duration(seconds: 3)]) {
     Timer? timer;
     // prevents being disposed
     final link = keepAlive();
