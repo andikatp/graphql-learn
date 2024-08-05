@@ -17,9 +17,22 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
+      - name: Set up Java environment
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version-file: ./fe/graphql_learn/pubspec.yaml
+          cache: true
+          flutter-version-file: 3.22.2
       - run: flutter --version
+      - run: dart format --set-exit-if-changed .
+      - run: flutter analyze .
+      - run: flutter test
+      - run: flutter build apk
+      - uses: actions/upload-artifact@v1
+        with:
+          name: release-apk
+          path: build/app/outputs/apk/release/app-release.apk
