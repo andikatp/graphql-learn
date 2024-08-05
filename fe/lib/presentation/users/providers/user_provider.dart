@@ -1,3 +1,4 @@
+import 'package:graphql_learn/domain/core/exceptions.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:graphql_learn/infrastructure/core/extension.dart';
 import 'package:graphql_learn/infrastructure/users/user_repository.dart';
@@ -14,7 +15,12 @@ Future<List<UserEntity>> getUsersEvent(GetUsersEventRef ref) async {
     final repository = ref.read(userRepositoryProvider);
     return await repository.getUsers(cancelToken: token);
   } catch (e) {
-    link.close();
-    rethrow;
+    if (e is ServerException) {
+      final message = e.message;
+      return Future.error(message);
+    } else {
+      link.close();
+      rethrow;
+    }
   }
 }

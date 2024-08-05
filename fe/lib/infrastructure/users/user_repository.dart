@@ -26,7 +26,7 @@ class UserRepository extends UsersInterface {
         data: {
           // ignore: unnecessary_raw_strings
           'query': r'''
-          query GetAllUser {
+          query {
           users {
            name
            id
