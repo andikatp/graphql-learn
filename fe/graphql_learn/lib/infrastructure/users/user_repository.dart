@@ -5,6 +5,7 @@ import 'package:graphql_learn/domain/core/exceptions.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:graphql_learn/domain/users/interface/users_interface.dart';
 import 'package:graphql_learn/infrastructure/core/dio_injectable.dart';
+import 'package:graphql_learn/infrastructure/core/env.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_repository.g.dart';
@@ -18,7 +19,7 @@ class UserRepository implements UsersInterface {
     try {
       log('get users from server');
       final response = await _dio.get<Map<String, dynamic>>(
-        'http://localhost:4000/',
+        Env.baseUrl,
         data: {
           // ignore: unnecessary_raw_strings
           'query': r'''
