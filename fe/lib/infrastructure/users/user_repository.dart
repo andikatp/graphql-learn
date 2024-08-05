@@ -20,7 +20,8 @@ class UserRepository extends UsersInterface {
   }) async {
     try {
       log('get users from server');
-      final response = await _dio.get<Map<String, dynamic>>(
+      log(Env.baseUrl);
+      final response = await _dio.post<Map<String, dynamic>>(
         Env.baseUrl,
         cancelToken: cancelToken,
         data: {

@@ -11,7 +11,14 @@ class AppWidget extends ConsumerWidget {
     return MaterialApp.router(
       routerConfig: router,
       themeMode: ThemeMode.dark,
-      darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: PredictiveBackPageTransitionsBuilder(),
+          },
+        ),
+      ),
     );
   }
 }

@@ -7,9 +7,17 @@ class UserTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(user.name),
-      subtitle: Text(user.username),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: ListTile(
+        tileColor: Colors.red,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        title: Text(user.name),
+        subtitle: Text(user.username),
+        leading: Text(user.id),
+      ),
     );
   }
 }
