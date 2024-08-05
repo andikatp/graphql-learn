@@ -5,20 +5,24 @@ import 'package:graphql_learn/domain/core/exceptions.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:graphql_learn/domain/users/interface/users_interface.dart';
 import 'package:graphql_learn/infrastructure/core/dio_injectable.dart';
+import 'package:graphql_learn/infrastructure/core/env.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_repository.g.dart';
 
-class UserRepository implements UsersInterface {
+class UserRepository extends UsersInterface {
   UserRepository({required Dio dio}) : _dio = dio;
   final Dio _dio;
 
   @override
-  Future<List<UserEntity>> getUsers() async {
+  Future<List<UserEntity>> getUsers({
+    CancelToken? cancelToken,
+  }) async {
     try {
       log('get users from server');
       final response = await _dio.get<Map<String, dynamic>>(
-        'http://localhost:4000/',
+        Env.baseUrl,
+        cancelToken: cancelToken,
         data: {
           // ignore: unnecessary_raw_strings
           'query': r'''
@@ -31,6 +35,7 @@ class UserRepository implements UsersInterface {
         }
         ''',
         },
+
       );
       final data = ((response.data!)['data'] as Map<String, dynamic>)['users']
           as List<dynamic>;
