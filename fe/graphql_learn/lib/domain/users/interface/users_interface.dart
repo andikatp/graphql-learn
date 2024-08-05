@@ -4,6 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'users_interface.g.dart';
 
 abstract class UsersInterface {
+  const UsersInterface();
   Future<List<UserEntity>> getUsers();
 }
 
