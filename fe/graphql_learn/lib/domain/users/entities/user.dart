@@ -13,7 +13,9 @@ class UserEntity with _$UserEntity {
   }) = _UserEntity;
   const UserEntity._();
 
-  factory UserEntity.empty() => const UserEntity(id: '', name: '', username: '');
+  factory UserEntity.empty() =>
+      const UserEntity(id: '', name: '', username: '');
 
-  factory UserEntity.fromJson(Map<String, dynamic> json) => _$UserEntityFromJson(json);
+  factory UserEntity.fromJson(Map<String, dynamic> json) =>
+      _$UserEntityFromJson(json);
 }
