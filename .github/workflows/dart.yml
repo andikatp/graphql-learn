@@ -1,66 +1,66 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
+# # This workflow uses actions that are not certified by GitHub.
+# # They are provided by a third-party and are governed by
+# # separate terms of service, privacy policy, and support
+# # documentation.
 
-name: Dart
+# name: Dart
 
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+# on:
+#   push:
+#     branches: [ "main" ]
+#   pull_request:
+#     branches: [ "main" ]
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
 
-      - name: Cache dependencies
-        uses: actions/cache@v4.0.2
-        with:
-          path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.yaml') }}
+#       - name: Cache dependencies
+#         uses: actions/cache@v4.0.2
+#         with:
+#           path: ~/.pub-cache
+#           key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.yaml') }}
 
-      - name: Set up Java environment
-        uses: actions/setup-java@v1
-        with:
-          java-version: '12.x'
+#       - name: Set up Java environment
+#         uses: actions/setup-java@v1
+#         with:
+#           java-version: '12.x'
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
+#       - name: Set up Flutter
+#         uses: subosito/flutter-action@v2
+#         with:
+#           channel: stable
+#           cache: true
 
-      - name: Install dependencies
-        run: |
-          flutter pub get
+#       - name: Install dependencies
+#         run: |
+#           flutter pub get
 
-      - name: Run build_runner
-        run: |
-          flutter pub run build_runner build --delete-conflicting-outputs
+#       - name: Run build_runner
+#         run: |
+#           flutter pub run build_runner build --delete-conflicting-outputs
 
-      - name: Run dart format
-        run: |
-          dart format --set-exit-if-changed .
+#       - name: Run dart format
+#         run: |
+#           dart format --set-exit-if-changed .
 
-      - name: Run flutter analyze
-        run: |
-          flutter analyze
+#       - name: Run flutter analyze
+#         run: |
+#           flutter analyze
 
-      - name: Run flutter test
-        run: |
-          flutter test
+#       - name: Run flutter test
+#         run: |
+#           flutter test
 
-      - name: Build APK
-        run: |
-          flutter build apk
+#       - name: Build APK
+#         run: |
+#           flutter build apk
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v1
-        with:
-          name: release-apk
-          path: build/app/outputs/apk/release/app-release.apk
+#       - name: Upload APK
+#         uses: actions/upload-artifact@v1
+#         with:
+#           name: release-apk
+#           path: build/app/outputs/apk/release/app-release.apk
