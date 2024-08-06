@@ -10,7 +10,6 @@ class UserTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Future<void> deleteUser(String id) async {
-      await ref.read(userControllerProvider.notifier).deleteUserEvent(user.id);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -20,6 +19,7 @@ class UserTile extends ConsumerWidget {
           ),
         );
       }
+      await ref.read(userControllerProvider.notifier).deleteUserEvent(user.id);
     }
 
     return Padding(
