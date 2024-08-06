@@ -87,10 +87,9 @@ class UserRepository extends UsersInterface {
         },
         cancelToken: cancelToken,
       );
-      log('data blom diproses: ${response.data}');
       final data =
           (response.data!['data'] as Map<String, dynamic>)['createUser'];
-      log('dta terbaru: $data');
+      log('data terbaru: $data');
       return UserEntity.fromJson(data as Map<String, dynamic>);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
@@ -101,6 +100,34 @@ class UserRepository extends UsersInterface {
       }
       throw ServerException(message: e.message ?? 'Error');
     } catch (e) {
+      log(
+        'An error occurred while creating a user: $e',
+        name: 'UserRepository.createUser',
+      );
+      throw ServerException(message: e.toString());
+    }
+  }
+
+  @override
+  Future<void> deleteUser(String id, {CancelToken? cancelToken}) async {
+    try {
+      log('delete user with id: $id');
+      final response = await _dio.post<Map<String, dynamic>>(
+        Env.baseUrl,
+        data: {
+          'query': r'''
+          mutation DeleteUser($id: ID!) {
+            deleteUser(id: $id)
+          }
+        ''',
+          'variables': {
+            'id': id,
+          },
+        },
+        cancelToken: cancelToken,
+      );
+      log('data: ${response.data}');
+    } on DioException catch (e) {
       log(
         'An error occurred while creating a user: $e',
         name: 'UserRepository.createUser',
