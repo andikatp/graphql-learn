@@ -10,15 +10,14 @@ class NewUserInput with _$NewUserInput {
   const factory NewUserInput({
     required String name,
     required int age,
-    required Nationality nationality,
     required String username,
+    @Default(Nationality.England) Nationality nationality,
   }) = _NewUserInput;
   const NewUserInput._();
 
   factory NewUserInput.empty() => const NewUserInput(
         name: '',
         age: 0,
-        nationality: Nationality.England,
         username: '',
       );
 }

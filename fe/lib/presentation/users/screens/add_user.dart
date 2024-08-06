@@ -33,7 +33,6 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
           NewUserInput(
             name: _nameController.text,
             age: int.parse(_ageController.text),
-            nationality: Nationality.England,
             username: 'username',
           ),
         );
@@ -47,20 +46,36 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
         title: const Text('Add User'),
       ),
       body: SafeArea(
-        minimum: const EdgeInsets.all(20),
+        minimum: const EdgeInsets.all(40),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
                 controller: _nameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Name',
+                ),
               ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Username',
+                ),
+              ),
+              const SizedBox(height: 10),
               TextField(
                 controller: _ageController,
                 keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Age',
+                ),
               ),
-              TextField(
-                controller: _usernameController,
-              ),
+              const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: addUser,
                 child: const Text('Add User'),

@@ -40,7 +40,7 @@ class UserController extends _$UserController {
           final token = ref.cancelToken();
           final repository = ref.read(userRepositoryProvider);
           await repository.createUser(
-            NewUserInput.empty(),
+            user,
             cancelToken: token,
           );
           return _fetchUser();
