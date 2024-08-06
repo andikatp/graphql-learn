@@ -1,4 +1,5 @@
 import 'package:graphql_learn/domain/core/exceptions.dart';
+import 'package:graphql_learn/domain/users/entities/edit_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/new_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:graphql_learn/infrastructure/core/extension.dart';
@@ -66,6 +67,33 @@ class UserController extends _$UserController {
           final repository = ref.read(userRepositoryProvider);
           await repository.deleteUser(
             id,
+            cancelToken: token,
+          );
+          return _fetchUser();
+        },
+      );
+    } catch (e) {
+      if (e is ServerException) {
+        final message = e.message;
+        return Future.error(message);
+      } else {
+        link.close();
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> editUsernameEvent(EditUserInput input) async {
+    state = const AsyncValue.loading();
+    final link = ref.cacheFor();
+    try {
+      state = await AsyncValue.guard(
+        () async {
+          ref.logger();
+          final token = ref.cancelToken();
+          final repository = ref.read(userRepositoryProvider);
+          await repository.updateUsername(
+            input,
             cancelToken: token,
           );
           return _fetchUser();
