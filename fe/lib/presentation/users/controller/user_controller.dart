@@ -30,7 +30,7 @@ class UserController extends _$UserController {
   @override
   FutureOr<List<UserEntity>> build() async => await _fetchUser();
 
-  Future<void> addNewUser(NewUserInput user) async {
+  Future<void> addNewUserEvent(NewUserInput user) async {
     state = const AsyncValue.loading();
     final link = ref.cacheFor();
     try {
@@ -41,6 +41,33 @@ class UserController extends _$UserController {
           final repository = ref.read(userRepositoryProvider);
           await repository.createUser(
             user,
+            cancelToken: token,
+          );
+          return _fetchUser();
+        },
+      );
+    } catch (e) {
+      if (e is ServerException) {
+        final message = e.message;
+        return Future.error(message);
+      } else {
+        link.close();
+        rethrow;
+      }
+    }
+  }
+
+  Future<void> deleteUserEvent(String id) async {
+    state = const AsyncValue.loading();
+    final link = ref.cacheFor();
+    try {
+      await AsyncValue.guard(
+        () async {
+          ref.logger();
+          final token = ref.cancelToken();
+          final repository = ref.read(userRepositoryProvider);
+          await repository.deleteUser(
+            id,
             cancelToken: token,
           );
           return _fetchUser();

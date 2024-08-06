@@ -29,7 +29,7 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
     log(_nameController.text);
     log(_ageController.text);
     log(_usernameController.text);
-    await ref.read(userControllerProvider.notifier).addNewUser(
+    await ref.read(userControllerProvider.notifier).addNewUserEvent(
           NewUserInput(
             name: _nameController.text,
             age: int.parse(_ageController.text),
