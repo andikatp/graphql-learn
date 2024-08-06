@@ -22,19 +22,23 @@ class UsersPage extends ConsumerWidget {
       ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20),
-        child: usersRef.when(
-          data: (users) => ListView.builder(
-            itemBuilder: (context, index) => UserTile(user: users[index]),
-            itemCount: users.length,
-            padding: const EdgeInsets.all(16),
-          ),
-          error: (error, stackTrace) => Center(
-            child: Text('Error: $error \n $stackTrace'),
-          ),
-          loading: () => const Center(
-            child: CupertinoActivityIndicator(),
-          ),
-        ),
+        child: switch (usersRef) {
+          AsyncData(:final value) => value.isEmpty
+              ? const Center(
+                  child: Text('No users found'),
+                )
+              : ListView.builder(
+                  itemBuilder: (context, index) => UserTile(user: value[index]),
+                  itemCount: value.length,
+                  padding: const EdgeInsets.all(16),
+                ),
+          AsyncError(:final error) => Center(
+              child: Text('Error: $error'),
+            ),
+          _ => const Center(
+              child: CupertinoActivityIndicator(),
+            )
+        },
       ),
     );
   }

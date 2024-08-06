@@ -11,7 +11,6 @@ part 'user_controller.g.dart';
 class UserController extends _$UserController {
   Future<List<UserEntity>> _fetchUser() async {
     ref.logger();
-    final link = ref.cacheFor();
     final token = ref.cancelToken();
     try {
       final repository = ref.read(userRepositoryProvider);
@@ -21,7 +20,6 @@ class UserController extends _$UserController {
         final message = e.message;
         return Future.error(message);
       } else {
-        link.close();
         rethrow;
       }
     }
@@ -61,7 +59,7 @@ class UserController extends _$UserController {
     state = const AsyncValue.loading();
     final link = ref.cacheFor();
     try {
-      await AsyncValue.guard(
+      state = await AsyncValue.guard(
         () async {
           ref.logger();
           final token = ref.cancelToken();

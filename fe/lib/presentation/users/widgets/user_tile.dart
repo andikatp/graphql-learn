@@ -10,7 +10,16 @@ class UserTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Future<void> deleteUser(String id) async {
-      // await ref.read(userControllerProvider.notifier).deleteUser(user.id);
+      await ref.read(userControllerProvider.notifier).deleteUserEvent(user.id);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${user.name} has been deleted'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.white,
+          ),
+        );
+      }
     }
 
     return Padding(
