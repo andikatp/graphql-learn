@@ -9,12 +9,13 @@ class UserEntity with _$UserEntity {
   const factory UserEntity({
     required String id,
     required String name,
+    required int age,
     required String username,
   }) = _UserEntity;
   const UserEntity._();
 
   factory UserEntity.empty() =>
-      const UserEntity(id: '', name: '', username: '');
+      const UserEntity(id: '', name: '', age: 1, username: '');
 
   factory UserEntity.fromJson(Map<String, dynamic> json) =>
       _$UserEntityFromJson(json);
