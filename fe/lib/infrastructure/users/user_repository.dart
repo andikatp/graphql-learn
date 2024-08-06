@@ -33,6 +33,7 @@ class UserRepository extends UsersInterface {
           users {
            name
            id
+           age
             username
           }
         }
@@ -159,7 +160,10 @@ class UserRepository extends UsersInterface {
         }
         ''',
           'variables': {
-            'input': {'id': user.id, 'username': user.username},
+            'input': {
+              'id': user.id,
+              'userName': user.username,
+            },
           },
         },
         cancelToken: cancelToken,
