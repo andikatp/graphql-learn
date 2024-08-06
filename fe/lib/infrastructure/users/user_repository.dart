@@ -116,12 +116,16 @@ class UserRepository extends UsersInterface {
         Env.baseUrl,
         data: {
           'query': r'''
-          mutation DeleteUser($id: ID!) {
-            deleteUser(id: $id)
+          mutation DeleteUser($input: deleteUserInput) {
+          deleteUser (input: $input){
+          id
           }
+        }
         ''',
           'variables': {
-            'id': id,
+            'input': {
+              'id': id,
+            },
           },
         },
         cancelToken: cancelToken,

@@ -58,7 +58,6 @@ class UserController extends _$UserController {
   }
 
   Future<void> deleteUserEvent(String id) async {
-    state = const AsyncValue.loading();
     final link = ref.cacheFor();
     try {
       await AsyncValue.guard(
