@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
+import 'package:graphql_learn/presentation/router/app_router.dart';
 import 'package:graphql_learn/presentation/users/controller/user_controller.dart';
 
 class UserTile extends ConsumerWidget {
@@ -9,6 +11,9 @@ class UserTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void editUser(UserEntity user) =>
+        context.pushNamed(Routes.add, extra: user);
+
     Future<void> deleteUser(String id) async {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -32,7 +37,10 @@ class UserTile extends ConsumerWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+            IconButton(
+              onPressed: () => editUser(user),
+              icon: const Icon(Icons.edit),
+            ),
             IconButton(
               onPressed: () => deleteUser(user.id),
               icon: const Icon(Icons.delete),
