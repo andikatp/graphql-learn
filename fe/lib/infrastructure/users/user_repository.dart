@@ -70,6 +70,9 @@ class UserRepository extends UsersInterface {
             createUser(input: $input) {
               name
               id
+              age
+              nationality
+              username
             }
           }
         ''',
@@ -84,8 +87,10 @@ class UserRepository extends UsersInterface {
         },
         cancelToken: cancelToken,
       );
-      log(response.data.toString());
-      final data = response.data!['createUser'];
+      log('data blom diproses: ${response.data}');
+      final data =
+          (response.data!['data'] as Map<String, dynamic>)['createUser'];
+      log('dta terbaru: $data');
       return UserEntity.fromJson(data as Map<String, dynamic>);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
