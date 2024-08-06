@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:graphql_learn/domain/core/exceptions.dart';
+import 'package:graphql_learn/domain/users/entities/new_user.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:graphql_learn/domain/users/interface/users_interface.dart';
 import 'package:graphql_learn/infrastructure/core/dio_injectable.dart';
@@ -36,7 +38,6 @@ class UserRepository extends UsersInterface {
         }
         ''',
         },
-
       );
       final data = ((response.data!)['data'] as Map<String, dynamic>)['users']
           as List<dynamic>;
@@ -52,6 +53,56 @@ class UserRepository extends UsersInterface {
         );
       }
       throw ServerException(message: e.message ?? 'Error');
+    }
+  }
+
+  @override
+  Future<UserEntity> createUser(
+    NewUserInput? user, {
+    CancelToken? cancelToken,
+  }) async {
+    try {
+      NewUserInput? newUser;
+      newUser ??= NewUserInput.empty();
+      final response = await _dio.post<Map<String, dynamic>>(
+        Env.baseUrl,
+        data: {
+          'query': r'''
+          mutation CreateUser($input: createUserInput!) {
+            createUser(input: $input) {
+              name
+              id
+            }
+          }
+        ''',
+          'variables': jsonEncode({
+            'input': {
+              'name': newUser.name,
+              'age': newUser.age,
+              'nationality': newUser.nationality.toString().split('.').last,
+              'username': newUser.username,
+            },
+          }),
+        },
+        cancelToken: cancelToken,
+      );
+      final data =
+          ((response.data!)['data'] as Map<String, dynamic>)['createUser'];
+      return UserEntity.fromJson(data as Map<String, dynamic>);
+    } on DioException catch (e) {
+      if (e.type == DioExceptionType.cancel) {
+        log(
+          'Request to fetch users was canceled',
+          name: 'UserRepository.getUsers',
+        );
+      }
+      throw ServerException(message: e.message ?? 'Error');
+    } catch (e) {
+      log(
+        'An error occurred while creating a user: $e',
+        name: 'UserRepository.createUser',
+      );
+      throw ServerException(message: e.toString());
     }
   }
 }

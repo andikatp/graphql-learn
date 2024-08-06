@@ -22,5 +22,20 @@ final getUsersEventProvider =
 );
 
 typedef GetUsersEventRef = AutoDisposeFutureProviderRef<List<UserEntity>>;
+String _$createUserEventHash() => r'e8cd4ec1137a41faeb8380fa13412db4a1976e53';
+
+/// See also [createUserEvent].
+@ProviderFor(createUserEvent)
+final createUserEventProvider = AutoDisposeFutureProvider<UserEntity>.internal(
+  createUserEvent,
+  name: r'createUserEventProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$createUserEventHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef CreateUserEventRef = AutoDisposeFutureProviderRef<UserEntity>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

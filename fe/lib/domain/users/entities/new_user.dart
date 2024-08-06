@@ -1,0 +1,37 @@
+// ignore_for_file: constant_identifier_names
+
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'new_user.freezed.dart';
+
+@freezed
+class NewUserInput with _$NewUserInput {
+  const factory NewUserInput({
+    required String name,
+    required int age,
+    required Nationality nationality,
+    required String username,
+  }) = _NewUserInput;
+  const NewUserInput._();
+
+  factory NewUserInput.empty() => const NewUserInput(
+        name: '',
+        age: 0,
+        nationality: Nationality.England,
+        username: '',
+      );
+}
+
+enum Nationality {
+  England,
+  USA,
+  Canada,
+  Germany,
+  Spain,
+  Italy,
+  France,
+  Japan,
+  Russia,
+  Mexico,
+}
