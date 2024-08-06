@@ -22,6 +22,7 @@ UserEntity _$UserEntityFromJson(Map<String, dynamic> json) {
 mixin _$UserEntity {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
+  int get age => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +37,7 @@ abstract class $UserEntityCopyWith<$Res> {
           UserEntity value, $Res Function(UserEntity) then) =
       _$UserEntityCopyWithImpl<$Res, UserEntity>;
   @useResult
-  $Res call({String id, String name, String username});
+  $Res call({String id, String name, int age, String username});
 }
 
 /// @nodoc
@@ -54,6 +55,7 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? age = null,
     Object? username = null,
   }) {
     return _then(_value.copyWith(
@@ -65,6 +67,10 @@ class _$UserEntityCopyWithImpl<$Res, $Val extends UserEntity>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      age: null == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -81,7 +87,7 @@ abstract class _$$UserEntityImplCopyWith<$Res>
       __$$UserEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String name, String username});
+  $Res call({String id, String name, int age, String username});
 }
 
 /// @nodoc
@@ -97,6 +103,7 @@ class __$$UserEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? name = null,
+    Object? age = null,
     Object? username = null,
   }) {
     return _then(_$UserEntityImpl(
@@ -108,6 +115,10 @@ class __$$UserEntityImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
+      age: null == age
+          ? _value.age
+          : age // ignore: cast_nullable_to_non_nullable
+              as int,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -120,7 +131,10 @@ class __$$UserEntityImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserEntityImpl extends _UserEntity with DiagnosticableTreeMixin {
   const _$UserEntityImpl(
-      {required this.id, required this.name, required this.username})
+      {required this.id,
+      required this.name,
+      required this.age,
+      required this.username})
       : super._();
 
   factory _$UserEntityImpl.fromJson(Map<String, dynamic> json) =>
@@ -131,11 +145,13 @@ class _$UserEntityImpl extends _UserEntity with DiagnosticableTreeMixin {
   @override
   final String name;
   @override
+  final int age;
+  @override
   final String username;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'UserEntity(id: $id, name: $name, username: $username)';
+    return 'UserEntity(id: $id, name: $name, age: $age, username: $username)';
   }
 
   @override
@@ -145,6 +161,7 @@ class _$UserEntityImpl extends _UserEntity with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('type', 'UserEntity'))
       ..add(DiagnosticsProperty('id', id))
       ..add(DiagnosticsProperty('name', name))
+      ..add(DiagnosticsProperty('age', age))
       ..add(DiagnosticsProperty('username', username));
   }
 
@@ -155,13 +172,14 @@ class _$UserEntityImpl extends _UserEntity with DiagnosticableTreeMixin {
             other is _$UserEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
+            (identical(other.age, age) || other.age == age) &&
             (identical(other.username, username) ||
                 other.username == username));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, name, username);
+  int get hashCode => Object.hash(runtimeType, id, name, age, username);
 
   @JsonKey(ignore: true)
   @override
@@ -181,6 +199,7 @@ abstract class _UserEntity extends UserEntity {
   const factory _UserEntity(
       {required final String id,
       required final String name,
+      required final int age,
       required final String username}) = _$UserEntityImpl;
   const _UserEntity._() : super._();
 
@@ -191,6 +210,8 @@ abstract class _UserEntity extends UserEntity {
   String get id;
   @override
   String get name;
+  @override
+  int get age;
   @override
   String get username;
   @override

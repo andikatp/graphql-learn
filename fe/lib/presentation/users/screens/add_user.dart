@@ -26,10 +26,15 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
     _nameController = TextEditingController();
     _ageController = TextEditingController();
     _usernameController = TextEditingController();
+    if (widget.user != null) {
+      _nameController.text = widget.user!.name;
+      _ageController.text = widget.user!.age.toString();
+      _usernameController.text = widget.user!.username;
+    }
     super.initState();
   }
 
-  Future<void> addUser() async {
+  Future<void> addOrEditUser() async {
     log(_nameController.text);
     log(_ageController.text);
     log(_usernameController.text);
@@ -90,7 +95,7 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
                   ),
                   const SizedBox(height: 10),
                   ElevatedButton(
-                    onPressed: addUser,
+                    onPressed: addOrEditUser,
                     child: const Text('Add User'),
                   ),
                 ],
