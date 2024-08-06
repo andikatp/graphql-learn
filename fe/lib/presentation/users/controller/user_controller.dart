@@ -1,5 +1,5 @@
 import 'package:graphql_learn/domain/core/exceptions.dart';
-import 'package:graphql_learn/domain/users/entities/new_user.dart';
+import 'package:graphql_learn/domain/users/entities/new_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:graphql_learn/infrastructure/core/extension.dart';
 import 'package:graphql_learn/infrastructure/users/user_repository.dart';

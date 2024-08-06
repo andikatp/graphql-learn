@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:graphql_learn/domain/core/exceptions.dart';
-import 'package:graphql_learn/domain/users/entities/new_user.dart';
+import 'package:graphql_learn/domain/users/entities/new_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:graphql_learn/domain/users/interface/users_interface.dart';
 import 'package:graphql_learn/infrastructure/core/dio_injectable.dart';

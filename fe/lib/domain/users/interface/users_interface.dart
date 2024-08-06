@@ -1,4 +1,4 @@
-import 'package:graphql_learn/domain/users/entities/new_user.dart';
+import 'package:graphql_learn/domain/users/entities/new_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
