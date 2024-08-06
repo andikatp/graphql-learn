@@ -8,6 +8,7 @@ abstract class UsersInterface {
   const UsersInterface();
   Future<List<UserEntity>> getUsers();
   Future<UserEntity> createUser(NewUserInput user);
+  Future<void> deleteUser(String id);
 }
 
 @riverpod
