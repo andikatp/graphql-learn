@@ -5,7 +5,7 @@ import 'package:graphql_learn/infrastructure/core/extension.dart';
 import 'package:graphql_learn/infrastructure/users/user_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'user_provider.g.dart';
+part 'user_controller.g.dart';
 
 @riverpod
 class UserController extends _$UserController {
