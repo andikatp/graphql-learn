@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:graphql_learn/domain/users/entities/edit_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/new_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:graphql_learn/presentation/users/controller/user_controller.dart';
@@ -38,13 +39,47 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
     log(_nameController.text);
     log(_ageController.text);
     log(_usernameController.text);
-    await ref.read(userControllerProvider.notifier).addNewUserEvent(
-          NewUserInput(
-            name: _nameController.text,
-            age: int.parse(_ageController.text),
-            username: 'username',
-          ),
-        );
+    if (widget.user != null) {
+      await ref
+          .read(userControllerProvider.notifier)
+          .editUsernameEvent(
+            EditUserInput(
+              id: int.parse(widget.user!.id),
+              username: _usernameController.text,
+            ),
+          )
+          .then(
+        (_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Username has been updated'),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.white,
+            ),
+          );
+        },
+      );
+    } else {
+      await ref
+          .read(userControllerProvider.notifier)
+          .addNewUserEvent(
+            NewUserInput(
+              name: _nameController.text,
+              age: int.parse(_ageController.text),
+              username: 'username',
+            ),
+          )
+          .then(
+            (_) => const ScaffoldMessenger(
+              child: SnackBar(
+                content: Text('Username has been Added'),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.white,
+              ),
+            ),
+          );
+    }
+
     if (mounted) context.pop();
   }
 
@@ -96,7 +131,7 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
                   const SizedBox(height: 10),
                   ElevatedButton(
                     onPressed: addOrEditUser,
-                    child: const Text('Add User'),
+                    child: Text('${widget.user == null ? 'Add' : 'Edit'} User'),
                   ),
                 ],
               );

@@ -12,7 +12,7 @@ class UserTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void editUser(UserEntity user) =>
-        context.pushNamed(Routes.add, extra: user);
+        context.pushNamed(Routes.edit, extra: user);
 
     Future<void> deleteUser(String id) async {
       if (context.mounted) {
