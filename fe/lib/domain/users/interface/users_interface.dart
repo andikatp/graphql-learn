@@ -1,3 +1,4 @@
+import 'package:graphql_learn/domain/users/entities/edit_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/new_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -9,7 +10,7 @@ abstract class UsersInterface {
   Future<List<UserEntity>> getUsers();
   Future<UserEntity> createUser(NewUserInput user);
   Future<void> deleteUser(String id);
-  Future<void> updateUsername(String id, String username);
+  Future<void> updateUsername(EditUserInput user);
 }
 
 @riverpod

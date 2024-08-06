@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$EditUserInput {
+  int get id => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -29,7 +30,7 @@ abstract class $EditUserInputCopyWith<$Res> {
           EditUserInput value, $Res Function(EditUserInput) then) =
       _$EditUserInputCopyWithImpl<$Res, EditUserInput>;
   @useResult
-  $Res call({String username});
+  $Res call({int id, String username});
 }
 
 /// @nodoc
@@ -45,9 +46,14 @@ class _$EditUserInputCopyWithImpl<$Res, $Val extends EditUserInput>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? username = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -64,7 +70,7 @@ abstract class _$$EditUserInputImplCopyWith<$Res>
       __$$EditUserInputImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String username});
+  $Res call({int id, String username});
 }
 
 /// @nodoc
@@ -78,9 +84,14 @@ class __$$EditUserInputImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? username = null,
   }) {
     return _then(_$EditUserInputImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
@@ -92,14 +103,17 @@ class __$$EditUserInputImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$EditUserInputImpl extends _EditUserInput {
-  const _$EditUserInputImpl({required this.username}) : super._();
+  const _$EditUserInputImpl({required this.id, required this.username})
+      : super._();
 
+  @override
+  final int id;
   @override
   final String username;
 
   @override
   String toString() {
-    return 'EditUserInput(username: $username)';
+    return 'EditUserInput(id: $id, username: $username)';
   }
 
   @override
@@ -107,12 +121,13 @@ class _$EditUserInputImpl extends _EditUserInput {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$EditUserInputImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.username, username) ||
                 other.username == username));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, username);
+  int get hashCode => Object.hash(runtimeType, id, username);
 
   @JsonKey(ignore: true)
   @override
@@ -122,10 +137,13 @@ class _$EditUserInputImpl extends _EditUserInput {
 }
 
 abstract class _EditUserInput extends EditUserInput {
-  const factory _EditUserInput({required final String username}) =
-      _$EditUserInputImpl;
+  const factory _EditUserInput(
+      {required final int id,
+      required final String username}) = _$EditUserInputImpl;
   const _EditUserInput._() : super._();
 
+  @override
+  int get id;
   @override
   String get username;
   @override
