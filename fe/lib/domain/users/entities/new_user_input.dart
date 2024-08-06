@@ -3,7 +3,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'new_user.freezed.dart';
+part 'new_user_input.freezed.dart';
 
 @freezed
 class NewUserInput with _$NewUserInput {
