@@ -18,8 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$NewUserInput {
   String get name => throw _privateConstructorUsedError;
   int get age => throw _privateConstructorUsedError;
-  Nationality get nationality => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
+  Nationality get nationality => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NewUserInputCopyWith<NewUserInput> get copyWith =>
@@ -32,7 +32,7 @@ abstract class $NewUserInputCopyWith<$Res> {
           NewUserInput value, $Res Function(NewUserInput) then) =
       _$NewUserInputCopyWithImpl<$Res, NewUserInput>;
   @useResult
-  $Res call({String name, int age, Nationality nationality, String username});
+  $Res call({String name, int age, String username, Nationality nationality});
 }
 
 /// @nodoc
@@ -50,8 +50,8 @@ class _$NewUserInputCopyWithImpl<$Res, $Val extends NewUserInput>
   $Res call({
     Object? name = null,
     Object? age = null,
-    Object? nationality = null,
     Object? username = null,
+    Object? nationality = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -62,14 +62,14 @@ class _$NewUserInputCopyWithImpl<$Res, $Val extends NewUserInput>
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int,
-      nationality: null == nationality
-          ? _value.nationality
-          : nationality // ignore: cast_nullable_to_non_nullable
-              as Nationality,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      nationality: null == nationality
+          ? _value.nationality
+          : nationality // ignore: cast_nullable_to_non_nullable
+              as Nationality,
     ) as $Val);
   }
 }
@@ -82,7 +82,7 @@ abstract class _$$NewUserInputImplCopyWith<$Res>
       __$$NewUserInputImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, int age, Nationality nationality, String username});
+  $Res call({String name, int age, String username, Nationality nationality});
 }
 
 /// @nodoc
@@ -98,8 +98,8 @@ class __$$NewUserInputImplCopyWithImpl<$Res>
   $Res call({
     Object? name = null,
     Object? age = null,
-    Object? nationality = null,
     Object? username = null,
+    Object? nationality = null,
   }) {
     return _then(_$NewUserInputImpl(
       name: null == name
@@ -110,14 +110,14 @@ class __$$NewUserInputImplCopyWithImpl<$Res>
           ? _value.age
           : age // ignore: cast_nullable_to_non_nullable
               as int,
-      nationality: null == nationality
-          ? _value.nationality
-          : nationality // ignore: cast_nullable_to_non_nullable
-              as Nationality,
       username: null == username
           ? _value.username
           : username // ignore: cast_nullable_to_non_nullable
               as String,
+      nationality: null == nationality
+          ? _value.nationality
+          : nationality // ignore: cast_nullable_to_non_nullable
+              as Nationality,
     ));
   }
 }
@@ -128,8 +128,8 @@ class _$NewUserInputImpl extends _NewUserInput with DiagnosticableTreeMixin {
   const _$NewUserInputImpl(
       {required this.name,
       required this.age,
-      required this.nationality,
-      required this.username})
+      required this.username,
+      this.nationality = Nationality.England})
       : super._();
 
   @override
@@ -137,13 +137,14 @@ class _$NewUserInputImpl extends _NewUserInput with DiagnosticableTreeMixin {
   @override
   final int age;
   @override
-  final Nationality nationality;
-  @override
   final String username;
+  @override
+  @JsonKey()
+  final Nationality nationality;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NewUserInput(name: $name, age: $age, nationality: $nationality, username: $username)';
+    return 'NewUserInput(name: $name, age: $age, username: $username, nationality: $nationality)';
   }
 
   @override
@@ -153,8 +154,8 @@ class _$NewUserInputImpl extends _NewUserInput with DiagnosticableTreeMixin {
       ..add(DiagnosticsProperty('type', 'NewUserInput'))
       ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('age', age))
-      ..add(DiagnosticsProperty('nationality', nationality))
-      ..add(DiagnosticsProperty('username', username));
+      ..add(DiagnosticsProperty('username', username))
+      ..add(DiagnosticsProperty('nationality', nationality));
   }
 
   @override
@@ -164,15 +165,15 @@ class _$NewUserInputImpl extends _NewUserInput with DiagnosticableTreeMixin {
             other is _$NewUserInputImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.age, age) || other.age == age) &&
-            (identical(other.nationality, nationality) ||
-                other.nationality == nationality) &&
             (identical(other.username, username) ||
-                other.username == username));
+                other.username == username) &&
+            (identical(other.nationality, nationality) ||
+                other.nationality == nationality));
   }
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, name, age, nationality, username);
+      Object.hash(runtimeType, name, age, username, nationality);
 
   @JsonKey(ignore: true)
   @override
@@ -185,8 +186,8 @@ abstract class _NewUserInput extends NewUserInput {
   const factory _NewUserInput(
       {required final String name,
       required final int age,
-      required final Nationality nationality,
-      required final String username}) = _$NewUserInputImpl;
+      required final String username,
+      final Nationality nationality}) = _$NewUserInputImpl;
   const _NewUserInput._() : super._();
 
   @override
@@ -194,9 +195,9 @@ abstract class _NewUserInput extends NewUserInput {
   @override
   int get age;
   @override
-  Nationality get nationality;
-  @override
   String get username;
+  @override
+  Nationality get nationality;
   @override
   @JsonKey(ignore: true)
   _$$NewUserInputImplCopyWith<_$NewUserInputImpl> get copyWith =>

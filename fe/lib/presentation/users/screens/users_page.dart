@@ -17,8 +17,9 @@ class UsersPage extends ConsumerWidget {
         title: const Text('Users'),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () => context.pushNamed(Routes.add),
-          child: const Icon(Icons.add),),
+        onPressed: () => context.pushNamed(Routes.add),
+        child: const Icon(Icons.add),
+      ),
       body: SafeArea(
         minimum: const EdgeInsets.all(20),
         child: usersRef.when(
