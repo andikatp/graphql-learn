@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:graphql_learn/domain/users/entities/new_user.dart';
+import 'package:graphql_learn/presentation/users/providers/user_provider.dart';
 
 class AddUserPage extends ConsumerStatefulWidget {
   const AddUserPage({super.key});
@@ -20,6 +25,21 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
     super.initState();
   }
 
+  Future<void> addUser() async {
+    log(_nameController.text);
+    log(_ageController.text);
+    log(_usernameController.text);
+    await ref.read(userControllerProvider.notifier).addNewUser(
+          NewUserInput(
+            name: _nameController.text,
+            age: int.parse(_ageController.text),
+            nationality: Nationality.England,
+            username: 'username',
+          ),
+        );
+    if (mounted) context.pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +56,14 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
               ),
               TextField(
                 controller: _ageController,
+                keyboardType: TextInputType.number,
               ),
               TextField(
                 controller: _usernameController,
+              ),
+              ElevatedButton(
+                onPressed: addUser,
+                child: const Text('Add User'),
               ),
             ],
           ),

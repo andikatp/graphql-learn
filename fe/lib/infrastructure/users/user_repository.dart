@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -62,6 +61,7 @@ class UserRepository extends UsersInterface {
     CancelToken? cancelToken,
   }) async {
     try {
+      log('create new user: ${user?.name ?? 'no name'}');
       NewUserInput? newUser;
       newUser ??= NewUserInput.empty();
       final response = await _dio.post<Map<String, dynamic>>(
@@ -75,17 +75,18 @@ class UserRepository extends UsersInterface {
             }
           }
         ''',
-          'variables': jsonEncode({
+          'variables': {
             'input': {
               'name': newUser.name,
               'age': newUser.age,
               'nationality': newUser.nationality.toString().split('.').last,
               'username': newUser.username,
             },
-          }),
+          },
         },
         cancelToken: cancelToken,
       );
+      log(response.data.toString());
       final data =
           ((response.data!)['data'] as Map<String, dynamic>)['createUser'];
       return UserEntity.fromJson(data as Map<String, dynamic>);

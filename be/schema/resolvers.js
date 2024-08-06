@@ -19,8 +19,6 @@ const resolvers = {
             const newUser = args.input
             const id = _.last(Users).id + 1;
             newUser.id = id;
-            _.add(Users, newUser);
-            _.
                 Users.push(newUser);
             return newUser;
         },
