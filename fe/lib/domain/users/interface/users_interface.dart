@@ -9,6 +9,7 @@ abstract class UsersInterface {
   Future<List<UserEntity>> getUsers();
   Future<UserEntity> createUser(NewUserInput user);
   Future<void> deleteUser(String id);
+  Future<void> updateUsername(String id, String username);
 }
 
 @riverpod
