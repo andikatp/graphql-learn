@@ -11,13 +11,13 @@ class UsersPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final usersRef = ref.watch(getUsersEventProvider);
+    final usersRef = ref.watch(userControllerProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Users'),
       ),
       floatingActionButton: FloatingActionButton(
-          onPressed: () => context.goNamed(Routes.add),
+          onPressed: () => context.pushNamed(Routes.add),
           child: const Icon(Icons.add),),
       body: SafeArea(
         minimum: const EdgeInsets.all(20),
