@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:graphql_learn/domain/users/entities/new_user.dart';
-import 'package:graphql_learn/presentation/users/providers/user_provider.dart';
+import 'package:graphql_learn/presentation/users/controller/user_controller.dart';
 
 class AddUserPage extends ConsumerStatefulWidget {
   const AddUserPage({super.key});

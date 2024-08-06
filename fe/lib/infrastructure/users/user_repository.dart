@@ -62,8 +62,6 @@ class UserRepository extends UsersInterface {
   }) async {
     try {
       log('create new user: ${user?.name ?? 'no name'}');
-      NewUserInput? newUser;
-      newUser ??= NewUserInput.empty();
       final response = await _dio.post<Map<String, dynamic>>(
         Env.baseUrl,
         data: {
@@ -77,18 +75,17 @@ class UserRepository extends UsersInterface {
         ''',
           'variables': {
             'input': {
-              'name': newUser.name,
-              'age': newUser.age,
-              'nationality': newUser.nationality.toString().split('.').last,
-              'username': newUser.username,
+              'name': user?.name ?? 'no name',
+              'age': user?.age,
+              'nationality': user?.nationality.toString().split('.').last,
+              'username': user?.username,
             },
           },
         },
         cancelToken: cancelToken,
       );
       log(response.data.toString());
-      final data =
-          ((response.data!)['data'] as Map<String, dynamic>)['createUser'];
+      final data = response.data!['createUser'];
       return UserEntity.fromJson(data as Map<String, dynamic>);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
