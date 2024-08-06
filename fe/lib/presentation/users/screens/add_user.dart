@@ -48,39 +48,50 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
       body: SafeArea(
         minimum: const EdgeInsets.all(40),
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Name',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _usernameController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Username',
-                ),
-              ),
-              const SizedBox(height: 10),
-              TextField(
-                controller: _ageController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Age',
-                ),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: addUser,
-                child: const Text('Add User'),
-              ),
-            ],
+          child: Consumer(
+            builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              final state = ref.watch(userControllerProvider);
+              if (state.isLoading) {
+                return const CircularProgressIndicator();
+              }
+              if (state.error != null) {
+                return Text(state.error.toString());
+              }
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextField(
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Name',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _usernameController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Username',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _ageController,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: 'Age',
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: addUser,
+                    child: const Text('Add User'),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
