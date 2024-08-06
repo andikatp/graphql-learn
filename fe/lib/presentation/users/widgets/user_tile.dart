@@ -29,7 +29,16 @@ class UserTile extends ConsumerWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
-        onLongPress: () => deleteUser(user.id),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+            IconButton(
+              onPressed: () => deleteUser(user.id),
+              icon: const Icon(Icons.delete),
+            ),
+          ],
+        ),
         title: Text(user.name),
         subtitle: Text(user.username),
         leading: Text(user.id),
