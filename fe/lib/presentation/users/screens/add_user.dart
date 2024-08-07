@@ -50,13 +50,15 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
           )
           .then(
         (_) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Username has been updated'),
-              behavior: SnackBarBehavior.floating,
-              backgroundColor: Colors.white,
-            ),
-          );
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Username has been updated'),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.white,
+              ),
+            );
+          }
         },
       );
     } else {
