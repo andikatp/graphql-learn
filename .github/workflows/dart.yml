@@ -14,46 +14,67 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Cache dependencies
+      - name: Cache Flutter SDK
+        uses: actions/cache@v4
+        id: flutter-cache
+        with:
+          path: /opt/hostedtoolcache/flutter
+          key: flutter-${{ runner.os }}-${{ hashFiles('fe/**/pubspec.yaml') }}
+          restore-keys: |
+            flutter-${{ runner.os }}-
+
+      - name: Set up Flutter
+        if: steps.flutter-cache.outputs.cache-hit != 'true'
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Cache pub dependencies
         uses: actions/cache@v4
         with:
           path: ~/.pub-cache
-          key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.yaml') }}
+          key: pub-cache-${{ runner.os }}-${{ hashFiles('fe/**/pubspec.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pub-cache-
+            pub-cache-${{ runner.os }}-
 
       - name: Set up Java environment
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin' # Use Temurin distribution
-          java-version: '11' # Java 11 is recommended for Flutter
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          channel: stable
-          cache: true
+          distribution: 'temurin'
+          java-version: '11'
 
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          cd fe
+          flutter pub get
 
       - name: Run build_runner
-        run: flutter pub run build_runner build --delete-conflicting-outputs
+        run: |
+          cd fe
+          flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Run dart format
-        run: dart format --set-exit-if-changed .
+        run: |
+          cd fe
+          dart format --set-exit-if-changed .
 
       - name: Run flutter analyze
-        run: flutter analyze
+        run: |
+          cd fe
+          flutter analyze
 
       - name: Run flutter test
-        run: flutter test --no-pub --coverage
+        run: |
+          cd fe
+          flutter test --no-pub --coverage
 
       - name: Build APK
-        run: flutter build apk --release
+        run: |
+          cd fe
+          flutter build apk --release
 
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
           name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: fe/build/app/outputs/flutter-apk/app-release.apk
