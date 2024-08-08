@@ -12,6 +12,7 @@ class UsersPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final usersRef = ref.watch(userControllerProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Users'),
@@ -32,8 +33,8 @@ class UsersPage extends ConsumerWidget {
                   itemCount: value.length,
                   padding: const EdgeInsets.all(16),
                 ),
-          AsyncError(:final error) => Center(
-              child: Text('Error: $error'),
+          AsyncError(:final error) => const Center(
+              child: Icon(Icons.warning),
             ),
           _ => const Center(
               child: CupertinoActivityIndicator(),
