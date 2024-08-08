@@ -38,7 +38,7 @@ class UsersPage extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(Icons.warning, size: 50),
-                  Text(error.toString(), textAlign: TextAlign.center,),
+                  Text(error.toString(), textAlign: TextAlign.center),
                 ],
               ),
             ),
