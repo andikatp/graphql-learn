@@ -33,8 +33,14 @@ class UsersPage extends ConsumerWidget {
                   itemCount: value.length,
                   padding: const EdgeInsets.all(16),
                 ),
-          AsyncError(:final error) => const Center(
-              child: Icon(Icons.warning),
+          AsyncError(:final error) => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.warning, size: 50),
+                  Text(error.toString(), textAlign: TextAlign.center,),
+                ],
+              ),
             ),
           _ => const Center(
               child: CupertinoActivityIndicator(),
