@@ -138,7 +138,7 @@ class UserRepository extends UsersInterface {
         'An error occurred while deleting a user: $e',
         name: 'UserRepository.deleteUser',
       );
-      throw ServerException(message: e.toString());
+      throw ServerException(message: e.message ?? 'Something Wrong');
     }
   }
 
@@ -174,7 +174,7 @@ class UserRepository extends UsersInterface {
         'An error occurred while updating a user: $e',
         name: 'UserRepository.updateUsername',
       );
-      throw ServerException(message: e.toString());
+      throw ServerException(message: e.message ?? 'Something Wrong');
     }
   }
 }
