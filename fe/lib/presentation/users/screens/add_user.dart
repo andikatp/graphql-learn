@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:graphql_learn/domain/users/entities/edit_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/new_user_input.dart';
 import 'package:graphql_learn/domain/users/entities/user.dart';
@@ -40,53 +39,67 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
     log(_ageController.text);
     log(_usernameController.text);
     if (widget.user != null) {
-      await ref
-          .read(userControllerProvider.notifier)
-          .editUsernameEvent(
+      await ref.read(userControllerProvider.notifier).editUsernameEvent(
             EditUserInput(
               id: int.parse(widget.user!.id),
               username: _usernameController.text,
             ),
-          )
-          .then(
-        (_) {
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Username has been updated'),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.white,
+          );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Username has been updated'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.white,
+          ),
+        );
+      }
+    } else {
+      try {
+        await ref.read(userControllerProvider.notifier).addNewUserEvent(
+              NewUserInput(
+                name: _nameController.text,
+                age: int.parse(_ageController.text),
+                username: 'username',
               ),
             );
-          }
-        },
-      );
-    } else {
-      await ref
-          .read(userControllerProvider.notifier)
-          .addNewUserEvent(
-            NewUserInput(
-              name: _nameController.text,
-              age: int.parse(_ageController.text),
-              username: 'username',
-            ),
-          )
-          .then(
-            (_) => const ScaffoldMessenger(
-              child: SnackBar(
-                content: Text('Username has been Added'),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Colors.white,
-              ),
+
+        // if (mounted) {
+        //   ScaffoldMessenger.of(context).showSnackBar(
+        //     const SnackBar(
+        //       content: Text('Username has been added'),
+        //       behavior: SnackBarBehavior.floating,
+        //       backgroundColor: Colors.white,
+        //     ),
+        //   );
+        // }
+      } catch (error) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Error: $error'),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.white,
             ),
           );
+        }
+      }
     }
-
-    if (mounted) context.pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<AsyncValue<void>>(userControllerProvider, (_, state) {
+      if (state.hasError) {
+        log('errorrr');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.asError?.error.toString() ?? '')),
+        );
+      }
+    });
+    final state = ref.watch(userControllerProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add User'),
@@ -94,50 +107,49 @@ class _AddUserPageState extends ConsumerState<AddUserPage> {
       body: SafeArea(
         minimum: const EdgeInsets.all(40),
         child: Center(
-          child: Consumer(
-            builder: (BuildContext context, WidgetRef ref, Widget? child) {
-              final state = ref.watch(userControllerProvider);
-              if (state.isLoading) {
-                return const CircularProgressIndicator();
-              }
-              if (state.error != null) {
-                return Text(state.error.toString());
-              }
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Name',
-                    ),
+          child: state.when(
+            data: (data) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Name',
                   ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: _usernameController,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Username',
-                    ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Username',
                   ),
-                  const SizedBox(height: 10),
-                  TextField(
-                    controller: _ageController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Age',
-                    ),
+                ),
+                const SizedBox(height: 10),
+                TextField(
+                  controller: _ageController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: 'Age',
                   ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: addOrEditUser,
-                    child: Text('${widget.user == null ? 'Add' : 'Edit'} User'),
-                  ),
-                ],
-              );
-            },
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: addOrEditUser,
+                  child: Text('${widget.user == null ? 'Add' : 'Edit'} User'),
+                ),
+              ],
+            ),
+            error: (error, stackTrace) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.warning, size: 50),
+                Text(state.error.toString(), textAlign: TextAlign.center),
+              ],
+            ),
+            loading: CircularProgressIndicator.new,
           ),
         ),
       ),

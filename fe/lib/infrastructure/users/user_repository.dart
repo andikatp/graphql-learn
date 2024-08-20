@@ -34,7 +34,7 @@ class UserRepository extends UsersInterface {
            name
            id
            age
-            usernamea
+           username
           }
         }
         ''',
@@ -53,7 +53,7 @@ class UserRepository extends UsersInterface {
           name: 'UserRepository.getUsers',
         );
       }
-      throw ServerException(message: e.error.toString());
+      throw ServerException(message: e.message ?? 'an error occurred');
     }
   }
 
@@ -74,7 +74,7 @@ class UserRepository extends UsersInterface {
               id
               age
               nationality
-              username
+              usernamea
             }
           }
         ''',
@@ -100,13 +100,7 @@ class UserRepository extends UsersInterface {
           name: 'UserRepository.getUsers',
         );
       }
-      throw ServerException(message: e.error.toString());
-    } catch (e) {
-      log(
-        'An error occurred while creating a user: $e',
-        name: 'UserRepository.createUser',
-      );
-      throw ServerException(message: e.toString());
+      throw ServerException(message: e.message ?? 'an error occurred');
     }
   }
 
@@ -138,7 +132,7 @@ class UserRepository extends UsersInterface {
         'An error occurred while deleting a user: $e',
         name: 'UserRepository.deleteUser',
       );
-      throw ServerException(message: e.error.toString());
+      throw ServerException(message: e.message ?? 'an error occurred');
     }
   }
 
@@ -174,7 +168,8 @@ class UserRepository extends UsersInterface {
         'An error occurred while updating a user: $e',
         name: 'UserRepository.updateUsername',
       );
-      throw ServerException(message: e.error.toString());
+            throw ServerException(message: e.message ?? 'an error occurred');
+
     }
   }
 }
