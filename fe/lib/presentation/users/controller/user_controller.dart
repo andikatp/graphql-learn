@@ -16,13 +16,9 @@ class UserController extends _$UserController {
     try {
       final repository = ref.read(userRepositoryProvider);
       return await repository.getUsers(cancelToken: token);
-    } catch (e) {
-      if (e is ServerException) {
-        final message = e.message;
-        return Future.error(message);
-      } else {
-        rethrow;
-      }
+    } on ServerException catch (e, s) {
+      state = AsyncError(e.message, s);
+      return Future.error(e.message);
     }
   }
 
@@ -31,82 +27,47 @@ class UserController extends _$UserController {
 
   Future<void> addNewUserEvent(NewUserInput user) async {
     state = const AsyncValue.loading();
-    final link = ref.cacheFor();
     try {
-      state = await AsyncValue.guard(
-        () async {
-          ref.logger();
-          final token = ref.cancelToken();
-          final repository = ref.read(userRepositoryProvider);
-          await repository.createUser(
+      ref.logger();
+      final token = ref.cancelToken();
+      await ref.read(userRepositoryProvider).createUser(
             user,
             cancelToken: token,
           );
-          return _fetchUser();
-        },
-      );
-    } catch (e) {
-      if (e is ServerException) {
-        final message = e.message;
-        return Future.error(message);
-      } else {
-        link.close();
-        rethrow;
-      }
+      state = AsyncValue.data(await _fetchUser());
+    } on ServerException catch (e, s) {
+      state = AsyncError(e.message, s);
     }
   }
 
   Future<void> deleteUserEvent(String id) async {
     state = const AsyncValue.loading();
-    final link = ref.cacheFor();
     try {
-      state = await AsyncValue.guard(
-        () async {
-          ref.logger();
-          final token = ref.cancelToken();
-          final repository = ref.read(userRepositoryProvider);
-          await repository.deleteUser(
+      ref.logger();
+      final token = ref.cancelToken();
+      await ref.read(userRepositoryProvider).deleteUser(
             id,
             cancelToken: token,
           );
-          return _fetchUser();
-        },
-      );
-    } catch (e) {
-      if (e is ServerException) {
-        final message = e.message;
-        return Future.error(message);
-      } else {
-        link.close();
-        rethrow;
-      }
+      state = AsyncValue.data(await _fetchUser());
+    } on ServerException catch (e, s) {
+      state = AsyncError(e.message, s);
     }
   }
 
   Future<void> editUsernameEvent(EditUserInput input) async {
     state = const AsyncValue.loading();
-    final link = ref.cacheFor();
     try {
-      state = await AsyncValue.guard(
-        () async {
-          ref.logger();
-          final token = ref.cancelToken();
-          final repository = ref.read(userRepositoryProvider);
-          await repository.updateUsername(
-            input,
-            cancelToken: token,
-          );
-          return _fetchUser();
-        },
+      ref.logger();
+      final token = ref.cancelToken();
+      final repository = ref.read(userRepositoryProvider);
+      await repository.updateUsername(
+        input,
+        cancelToken: token,
       );
-    } catch (e) {
-      if (e is ServerException) {
-        final message = e.message;
-        return Future.error(message);
-      } else {
-        link.close();
-        rethrow;
-      }
+      state = AsyncValue.data(await _fetchUser());
+    } on ServerException catch (e, s) {
+      state = AsyncError(e.message, s);
     }
   }
 }
